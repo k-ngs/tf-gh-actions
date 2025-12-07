@@ -73,4 +73,4 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   # Run terraform apply via tfcmt so the result is posted to the PR
-                  tfcmt --var target:${{ matrix.env }} apply -patch -- terraform apply -input=false -auto-approve -no-color
+                  tfcmt --var target:${{ matrix.env }} apply -- terraform apply -input=false -auto-approve -no-color
