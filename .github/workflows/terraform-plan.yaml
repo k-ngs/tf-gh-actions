@@ -58,7 +58,7 @@ jobs:
               with:
                   terraform_version: ${{ env.TF_VERSION }}
             - name: Terraform Init
-              working-directory: environment/${{ matrix.env }}
+              working-directory: environments/${{ matrix.env }}
               run: terraform init
             - name: Terraform plan
               env:
