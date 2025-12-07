@@ -19,3 +19,4 @@ resource "null_resource" "hello_dev_exec" {
     always_run = timestamp()
   }
 }
+
