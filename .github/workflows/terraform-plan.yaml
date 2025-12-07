@@ -53,15 +53,20 @@ jobs:
               uses: aquaproj/aqua-installer@v4.0.2
               with:
                   aqua_version: ${{ env.aqua_version }}
+            - name: Install aqua packages (tfcmt)
+              run: |
+                aqua --version
+                aqua install
+                echo "$HOME/.local/bin" >> $GITHUB_PATH
             - name: Setup Terraform
               uses: hashicorp/setup-terraform@v3
               with:
                   terraform_version: ${{ env.TF_VERSION }}
             - name: Terraform Init
               working-directory: environments/${{ matrix.env }}
-              run: terraform init
+              run: terraform init -input=false
             - name: Terraform plan
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               working-directory: environments/${{ matrix.env }}
-              run: tfcmt --var target:${{ matrix.env}} plan -patch -- terraform plan -no-color
+              run: tfcmt --var target:${{ matrix.env }} plan -patch -- terraform plan -input=false -no-color
