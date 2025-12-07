@@ -19,4 +19,3 @@ resource "null_resource" "hello_stg_exec" {
     always_run = timestamp()
   }
 }
-
