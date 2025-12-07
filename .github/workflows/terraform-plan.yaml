@@ -48,7 +48,7 @@ jobs:
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
             - name: Terraform Version
               shell: bash
-              run: echo "TF_VERSION=$(cat environment/${{ matrix.env }}/.terraform-version)" >> $GITHUB_ENV
+              run: echo "TF_VERSION=$(cat environments/${{ matrix.env }}/.terraform-version)" >> $GITHUB_ENV
             - name: Install aqua
               uses: aquaproj/aqua-installer@v4.0.2
               with:
