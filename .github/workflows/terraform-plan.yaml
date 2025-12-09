@@ -42,7 +42,7 @@ jobs:
             fail-fast: false
             matrix:
                 env: ${{ fromJSON(needs.changes.outputs.workdirs) }}
-        uses: k-ngs/gh-actions-template/.github/workflows/terraform-plan.yaml
+        uses: k-ngs/gh-actions-template/.github/workflows/terraform-plan.yaml@main
         with:
             working_dir: environments/${{ matrix.env }}
             env: ${{ matrix.env }}

@@ -2,8 +2,6 @@ name: "Terraform Apply"
 
 on:
     pull_request:
-        branches:
-            - "main"
         types: [closed]
     workflow_dispatch:
 
@@ -44,7 +42,7 @@ jobs:
             fail-fast: false
             matrix:
                 env: ${{ fromJSON(needs.changes.outputs.workdirs) }}
-        uses: k-ngs/gh-actions-template/.github/workflows/terraform-apply.yaml
+        uses: k-ngs/gh-actions-template/.github/workflows/terraform-apply.yaml@main
         with:
             working_dir: environments/${{ matrix.env }}
             env: ${{ matrix.env }}
