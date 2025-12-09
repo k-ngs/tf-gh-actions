@@ -46,5 +46,3 @@ jobs:
         with:
             working_dir: environments/${{ matrix.env }}
             env: ${{ matrix.env }}
-        secrets:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
