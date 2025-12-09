@@ -14,7 +14,6 @@ resource "null_resource" "hello_dev_exec" {
     command = "echo Dev"
   }
 
-  # triggers を使うと毎回実行されるサンプルになります
   triggers = {
     always_run = timestamp()
   }

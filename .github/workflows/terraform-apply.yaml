@@ -2,8 +2,6 @@ name: "Terraform Apply"
 
 on:
     pull_request:
-        branches:
-            - "main"
         types: [closed]
     workflow_dispatch:
 
@@ -40,37 +38,11 @@ jobs:
         needs: changes
         # only run when there are changed workdirs, the PR was merged, and the PR target branch is main
         if: ${{ needs.changes.outputs.workdirs != '[]' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
-        runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
                 env: ${{ fromJSON(needs.changes.outputs.workdirs) }}
-        steps:
-            - name: Checkout
-              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-            - name: Terraform Version
-              shell: bash
-              run: echo "TF_VERSION=$(cat environments/${{ matrix.env }}/.terraform-version)" >> $GITHUB_ENV
-            - name: Install aqua
-              uses: aquaproj/aqua-installer@v4.0.2
-              with:
-                  aqua_version: ${{ env.aqua_version }}
-            - name: Install aqua packages (tfcmt)
-              run: |
-                  aqua --version
-                  aqua install
-                  echo "$HOME/.local/bin" >> $GITHUB_PATH
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v3
-              with:
-                  terraform_version: ${{ env.TF_VERSION }}
-            - name: Terraform Init
-              working-directory: environments/${{ matrix.env }}
-              run: terraform init -input=false
-            - name: Terraform Apply (tfcmt)
-              working-directory: environments/${{ matrix.env }}
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  # Run terraform apply via tfcmt so the result is posted to the PR
-                  tfcmt --var target:${{ matrix.env }} apply -- terraform apply -input=false -auto-approve -no-color
+        uses: k-ngs/gh-actions-template/.github/workflows/terraform-apply.yaml@main
+        with:
+            working_dir: environments/${{ matrix.env }}
+            env: ${{ matrix.env }}
